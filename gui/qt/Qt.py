@@ -14,13 +14,15 @@ import sys, re
 PYSIDE = 'PySide'
 PYQT4 = 'PyQt4'
 PYQT5 = 'PyQt5'
+PYQT6 = 'PyQt6'
 
 QT_LIB = None
 
 ## Automatically determine whether to use PyQt or PySide. 
 ## This is done by first checking to see whether one of the libraries
 ## is already imported. If not, then attempt to import PyQt4, then PySide.
-libOrder = [PYQT4, PYSIDE, PYQT5]
+#libOrder = [PYQT4, PYSIDE, PYQT5, PYQT6]
+libOrder = [PYQT6, PYQT5]
 
 for lib in libOrder:
     if lib in sys.modules:
@@ -36,7 +38,7 @@ if QT_LIB is None:
             pass
 
 if QT_LIB == None:
-    raise Exception("PyQtGraph requires one of PyQt4, PyQt5 or PySide; none of these packages could be imported.")
+    raise Exception("PyQtGraph requires one of PyQt[4-6] or PySide; none of these packages could be imported.")
 
 if QT_LIB == PYSIDE:
     from PySide import QtGui, QtCore, QtOpenGL, QtSvg
@@ -106,6 +108,19 @@ elif QT_LIB == PYQT4:
 
     VERSION_INFO = 'PyQt4 ' + QtCore.PYQT_VERSION_STR + ' Qt ' + QtCore.QT_VERSION_STR
 
+elif QT_LIB == PYQT6:
+
+    from PyQt6.QtWidgets import QApplication
+    from PyQt6 import QtGui, QtCore
+    from PyQt6 import QtWidgets as Widgets
+
+    try:
+        from PyQt6 import QtSvg
+    except ImportError:
+        pass
+
+    VERSION_INFO = 'PyQt6 ' + QtCore.PYQT_VERSION_STR + ' Qt ' + QtCore.QT_VERSION_STR
+
 elif QT_LIB == PYQT5:
     
     # We're using PyQt5 which has a different structure so we're going to use a shim to
@@ -162,23 +177,23 @@ elif QT_LIB == PYQT5:
     
     VERSION_INFO = 'PyQt5 ' + QtCore.PYQT_VERSION_STR + ' Qt ' + QtCore.QT_VERSION_STR
 
-# Common to PyQt4 and 5
-if QT_LIB.startswith('PyQt'):
-    import sip
-    def isQObjectAlive(obj):
-        return not sip.isdeleted(obj)
-    loadUiType = uic.loadUiType
+# Common to PyQt
+if QT_LIB != PYSIDE:
+    if QT_LIB == PYQT4 or QT_LIB == PYQT5:
+        import sip
+        def isQObjectAlive(obj):
+            return not sip.isdeleted(obj)
+        loadUiType = uic.loadUiType
 
     QtCore.Signal = QtCore.pyqtSignal
     QtCore.Slot = QtCore.pyqtSlot
-    
-
     
 ## Make sure we have Qt >= 4.7
 versionReq = [4, 7]
 USE_PYSIDE = QT_LIB == PYSIDE
 USE_PYQT4 = QT_LIB == PYQT4
 USE_PYQT5 = QT_LIB == PYQT5
+USE_PYQT6 = QT_LIB == PYQT6
 QtVersion = PySide.QtCore.__version__ if QT_LIB == PYSIDE else QtCore.QT_VERSION_STR
 m = re.match(r'(\d+)\.(\d+).*', QtVersion)
 if m is not None and list(map(int, m.groups())) < versionReq:

@@ -11,7 +11,7 @@ class QtRenderer(Renderer):
     def __init__(self, paint_device):
         """Creates a new renderer based on a QPaintDevice pd"""
         self._grid_pen = QtGui.QPen(QtGui.QColor(0x808080))
-        self._grid_pen.setStyle(QtCore.Qt.DashLine)
+        self._grid_pen.setStyle(QtCore.Qt.PenStyle.DashLine)
         self._grid_pen.setWidth(0)
         self._painter = None
         Renderer.__init__(self, paint_device)
@@ -26,7 +26,7 @@ class QtRenderer(Renderer):
         
         self._paintdevice = canvas
         self._painter = QtGui.QPainter(canvas)
-        self._painter.setRenderHint(QtGui.QPainter.Antialiasing)
+        self._painter.setRenderHint(QtGui.QPainter.RenderHint.Antialiasing)
 
         # invert the y axis
         self._painter.scale(1,-1)
@@ -116,7 +116,7 @@ class QtRenderer(Renderer):
         """Sets the line color and thickness.
         Color is interpreted as 0xAARRGGBB."""
         if color is None:
-            self._painter.setPen(QtCore.Qt.NoPen)
+            self._painter.setPen(QtCore.Qt.PenStyle.NoPen)
         else:
             self._painter.setPen(QtGui.QPen(self.__qcolor(color),thickness))
 
@@ -124,7 +124,7 @@ class QtRenderer(Renderer):
         """Sets the fill color.
         Color is interpreted as 0xAARRGGBB."""
         if color is None:
-            self._painter.setBrush(QtCore.Qt.NoBrush)
+            self._painter.setBrush(QtCore.Qt.BrushStyle.NoBrush)
         else:
             self._painter.setBrush(self.__qcolor(color))
 

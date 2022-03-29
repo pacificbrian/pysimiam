@@ -4,12 +4,12 @@
 # Description: This is the top-level application for QtSimiam.
 import sys
 
-from gui.qt.Qt import QtGui
+from gui.qt.Qt import QApplication
 from gui.qt.mainwindow import SimulationWidget
 from core.coursera import Week6
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     simWidget = SimulationWidget()
     simWidget.setTestSuite(Week6)
     simWidget.superv_action.trigger()

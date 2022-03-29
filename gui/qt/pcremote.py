@@ -10,7 +10,7 @@ import sys
 import os
 import socket
 
-from .Qt import QtGui, QtCore
+from .Qt import QtGui, QtCore, Widgets
 
 from core.ui import uiParameter, uiInt, uiFloat, uiBool, uiSelect, uiGroup
 
@@ -54,37 +54,37 @@ class PlayPauseAction(QtGui.QAction):
         self.callback = actset[2]
         self.setStatusTip(actset[3])
 
-class ControlWidget(QtGui.QWidget):
+class ControlWidget(Widgets.QWidget):
     connected = QtCore.Signal()
     
     def __init__(self, parent = None):
-        QtGui.QWidget.__init__(self,parent)
+        Widgets.QWidget.__init__(self,parent)
         
-        vlayout = QtGui.QVBoxLayout(self)
+        vlayout = Widgets.QVBoxLayout(self)
         
-        hlayout = QtGui.QHBoxLayout()
+        hlayout = Widgets.QHBoxLayout()
         vlayout.addLayout(hlayout)
         
-        self.ipWidget = QtGui.QLineEdit(self)
+        self.ipWidget = Widgets.QLineEdit(self)
         self.ipWidget.setText("127.0.0.1")
         self.ipWidget.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp(r"{0}\.{0}\.{0}\.{0}".format(r"(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])"))))
         
         hlayout.addWidget(self.ipWidget)
         
-        self.portWidget = QtGui.QSpinBox(self)
+        self.portWidget = Widgets.QSpinBox(self)
         self.portWidget.setRange(0,65536)
         self.portWidget.setValue(5005)
         
         hlayout.addWidget(self.portWidget)
         
-        self.cnctButton = QtGui.QPushButton("Connect",self)
+        self.cnctButton = Widgets.QPushButton("Connect",self)
         self.cnctButton.clicked.connect(self.connect2bot)
         
         hlayout.addWidget(self.cnctButton)
  
         vlayout.addStretch(1)
         
-        self.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        self.setSizePolicy(Widgets.QSizePolicy.Policy.Minimum, Widgets.QSizePolicy.Policy.Minimum)
         
     def connect2bot(self):
         try:
@@ -151,9 +151,9 @@ class ControlWidget(QtGui.QWidget):
         uirequest.close()
         
 
-class SimulationWidget(QtGui.QMainWindow):
+class SimulationWidget(Widgets.QMainWindow):
     def __init__(self,parent=None):
-        QtGui.QMainWindow.__init__(self,parent)
+        Widgets.QMainWindow.__init__(self,parent)
         self.setWindowTitle("QtSimiam - Remote control")
         self.setWindowIcon(QtGui.QIcon("./res/image/appicon.png"))
         self.resize(300,700)
@@ -175,7 +175,7 @@ class SimulationWidget(QtGui.QMainWindow):
                     "E&xit",
                     self)
         self.exit_action.triggered.connect(self.close)
-        self.exit_action.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.Quit))
+        self.exit_action.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Quit))
         self.exit_action.setToolTip("Quit the Program")
         self.exit_action.setStatusTip("Exit QtSimiam")
         
@@ -192,15 +192,15 @@ class SimulationWidget(QtGui.QMainWindow):
         
     def create_toolbars(self):
         
-        self.simulator_toolbar = QtGui.QToolBar("Control",self)
-        self.simulator_toolbar.setAllowedAreas(QtCore.Qt.TopToolBarArea | QtCore.Qt.BottomToolBarArea)
+        self.simulator_toolbar = Widgets.QToolBar("Control",self)
+        self.simulator_toolbar.setAllowedAreas(QtCore.Qt.ToolBarArea.TopToolBarArea | QtCore.Qt.ToolBarArea.BottomToolBarArea)
         
         self.simulator_toolbar.addAction(self.run_action)
                               
         self.addToolBar(self.simulator_toolbar)
 
     def create_menu(self):
-        menu = QtGui.QMenuBar(self)
+        menu = Widgets.QMenuBar(self)
         self.setMenuBar(menu)
         
         file_menu = menu.addMenu("&File")
@@ -217,14 +217,14 @@ class SimulationWidget(QtGui.QMainWindow):
         help_menu.addAction(self.about_action)
         
     def create_statusbar(self):      
-        self.setStatusBar(QtGui.QStatusBar())
-        self.status_label = QtGui.QLabel("",self.statusBar())
-        self.status_label.setFrameShape(QtGui.QFrame.NoFrame)
+        self.setStatusBar(Widgets.QStatusBar())
+        self.status_label = Widgets.QLabel("",self.statusBar())
+        self.status_label.setFrameShape(Widgets.QFrame.Shape.NoFrame)
         self.statusBar().addWidget(self.status_label)
 
     # Slots
     def about(self):
-        QtGui.QMessageBox.about(self,"About QtSimiam",
+        Widgets.QMessageBox.about(self,"About QtSimiam",
         """<b>PySimiam (Qt)</b><br>
         Robot simulator<br>
         &copy; Pysimiam Team

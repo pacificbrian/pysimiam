@@ -10,7 +10,7 @@ import sys
 import os
 from traceback import format_exception
 
-from .Qt import QtGui, QtCore
+from .Qt import QtGui, QtCore, Widgets
 
 from core.ui import SimUI
 from core.pcloop import PCLoop
@@ -57,9 +57,9 @@ class PlayPauseAction(QtGui.QAction):
         self.callback = actset[2]
         self.setStatusTip(actset[3])
 
-class SimulationWidget(SimUI, QtGui.QMainWindow):
+class SimulationWidget(SimUI, Widgets.QMainWindow):
     def __init__(self,parent=None):
-        QtGui.QMainWindow.__init__(self,parent)
+        Widgets.QMainWindow.__init__(self,parent)
         self.setWindowTitle("QtSimiam")
         self.setWindowIcon(QtGui.QIcon("./res/image/appicon.png"))
         self.resize(700,700)
@@ -72,22 +72,22 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.status_label.setText("Welcome to QtSimiam")
         
         # create XML file dialog
-        self.world_dialog = QtGui.QFileDialog(self,
+        self.world_dialog = Widgets.QFileDialog(self,
                                 "Select World File",
                                 "worlds", 
                                 "WorldFile (*.xml)")
-        self.world_dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
-        self.world_dialog.setFileMode(QtGui.QFileDialog.ExistingFile)     
+        self.world_dialog.setAcceptMode(Widgets.QFileDialog.AcceptMode.AcceptOpen)
+        self.world_dialog.setFileMode(Widgets.QFileDialog.FileMode.ExistingFile)
 
         # create supervisor file dialog
-        self.supervisor_dialog = QtGui.QFileDialog(self,
+        self.supervisor_dialog = Widgets.QFileDialog(self,
                                      "Select Supervisor File",
                                      "supervisors", 
                                      "Supervisor (*.py)")
-        self.supervisor_dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
-        self.supervisor_dialog.setFileMode(QtGui.QFileDialog.ExistingFile)     
+        self.supervisor_dialog.setAcceptMode(Widgets.QFileDialog.AcceptMode.AcceptOpen)
+        self.supervisor_dialog.setFileMode(Widgets.QFileDialog.FileMode.ExistingFile)
         
-        scrollArea = QtGui.QScrollArea(self)
+        scrollArea = Widgets.QScrollArea(self)
         self.setCentralWidget(scrollArea)
         self.viewer = SimulatorViewer()
         self.viewer.resized.connect(self.refresh_view)
@@ -97,8 +97,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.__clear_graph_on_start = False
         self.plots = []
 
-        #self.setDockOptions(QtGui.QMainWindow.AllowNestedDocks)
-        self.setDockOptions(QtGui.QMainWindow.DockOptions())
+        self.setDockOptions(self.dockOptions() | Widgets.QMainWindow.DockOption.AllowNestedDocks)
         
         self.coursera_dock = None
         self.logdock = None
@@ -123,7 +122,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
                           "Open XML &World",
                           self)
         self.open_world_action.triggered.connect(self.on_open_world)
-        self.open_world_action.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.Open))
+        self.open_world_action.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Open))
 
         self.open_world_action.setStatusTip("Open a new simulation")
                             
@@ -132,7 +131,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
                     "E&xit",
                     self)
         self.exit_action.triggered.connect(self.close)
-        self.exit_action.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.Quit))
+        self.exit_action.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Quit))
         self.exit_action.setToolTip("Quit the Program")
         self.exit_action.setStatusTip("Exit QtSimiam")
         
@@ -219,8 +218,8 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         
     def create_toolbars(self):
         
-        self.simulator_toolbar = QtGui.QToolBar("Control",self)
-        self.simulator_toolbar.setAllowedAreas(QtCore.Qt.TopToolBarArea | QtCore.Qt.BottomToolBarArea)
+        self.simulator_toolbar = Widgets.QToolBar("Control",self)
+        self.simulator_toolbar.setAllowedAreas(QtCore.Qt.ToolBarArea.TopToolBarArea | QtCore.Qt.ToolBarArea.BottomToolBarArea)
         
         self.simulator_toolbar.addAction(self.open_world_action)
         self.simulator_toolbar.addSeparator()
@@ -230,8 +229,8 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
                               
         self.addToolBar(self.simulator_toolbar)
 
-        self.view_toolbar = QtGui.QToolBar("View",self)
-        self.view_toolbar.setAllowedAreas(QtCore.Qt.TopToolBarArea | QtCore.Qt.BottomToolBarArea)
+        self.view_toolbar = Widgets.QToolBar("View",self)
+        self.view_toolbar.setAllowedAreas(QtCore.Qt.ToolBarArea.TopToolBarArea | QtCore.Qt.ToolBarArea.BottomToolBarArea)
 
         self.view_toolbar.addAction(self.grid_action)        
         self.view_toolbar.addAction(self.sens_action)
@@ -243,8 +242,8 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.view_toolbar.addAction(self.zoom_robot_action)
         self.view_toolbar.addAction(self.rotate_action)
         
-        self.zoom_slider = QtGui.QSlider(QtCore.Qt.Horizontal,self)
-        self.zoom_slider.setTickPosition(QtGui.QSlider.NoTicks)
+        self.zoom_slider = Widgets.QSlider(QtCore.Qt.Orientation.Horizontal,self)
+        self.zoom_slider.setTickPosition(Widgets.QSlider.TickPosition.NoTicks)
         self.zoom_slider.setToolTip("Adjust zoom")
         self.zoom_slider.setStatusTip("Zoom in/out on robot")
         self.zoom_slider.setMaximumWidth(300)
@@ -253,7 +252,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.zoom_slider.setEnabled(False)
         self.zoom_slider.valueChanged[int].connect(self.scale_zoom)
         self.view_toolbar.addWidget(self.zoom_slider)
-        self.zoom_label = QtGui.QLabel(" Zoom: 1.0x ",self)
+        self.zoom_label = Widgets.QLabel(" Zoom: 1.0x ",self)
         self.zoom_label.setToolTip("Current zoom factor")
         self.view_toolbar.addWidget(self.zoom_label)
         
@@ -262,7 +261,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.addToolBar(self.view_toolbar)
 
     def create_menu(self):
-        menu = QtGui.QMenuBar(self)
+        menu = Widgets.QMenuBar(self)
         self.setMenuBar(menu)
         
         file_menu = menu.addMenu("&File")
@@ -296,9 +295,9 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         help_menu.addAction(self.about_action)
         
     def create_statusbar(self):      
-        self.setStatusBar(QtGui.QStatusBar())
-        self.status_label = QtGui.QLabel("",self.statusBar())
-        self.status_label.setFrameShape(QtGui.QFrame.NoFrame)
+        self.setStatusBar(Widgets.QStatusBar())
+        self.status_label = Widgets.QLabel("",self.statusBar())
+        self.status_label.setFrameShape(Widgets.QFrame.Shape.NoFrame)
         self.statusBar().addWidget(self.status_label)
 
     def closeEvent(self,event):
@@ -325,7 +324,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.menuBar().addSeparator()
         self.coursera_action = self.menuBar().addAction("&Submit assignment")
         
-        tb = QtGui.QToolButton(self)
+        tb = Widgets.QToolButton(self)
         tb.setDefaultAction(self.coursera_action)
         self.coursera_action.setIcon(QtGui.QIcon("./res/image/coursera.png"))
         self.simulator_toolbar.insertWidget(self.rev_action, tb)
@@ -340,7 +339,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.coursera_action.setEnabled(False)
         if self.coursera_dock is None:
             self.coursera_dock = CourseraDock(self, self.tester)
-            self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.coursera_dock)
+            self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.coursera_dock)
             self.coursera_dock.closed.connect(self.coursera_action.setEnabled)
         else:
             self.coursera_dock.show()
@@ -349,14 +348,14 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.showlog_action.setEnabled(False)
         if self.logdock is None:
             self.logdock = LogDock(self)
-            self.addDockWidget(QtCore.Qt.BottomDockWidgetArea,self.logdock)
+            self.addDockWidget(QtCore.Qt.DockWidgetArea.BottomDockWidgetArea,self.logdock)
             self.logdock.closed.connect(self.showlog_action.setEnabled)
         else:
             self.logdock.show()
         
     # Slots
     def about(self):
-        QtGui.QMessageBox.about(self,"About QtSimiam",
+        Widgets.QMessageBox.about(self,"About QtSimiam",
         """<b>PySimiam (Qt)</b><br>
         Robot simulator<br>
         &copy; Pysimiam Team
@@ -481,7 +480,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
         self.viewer.update_bitmap()
         
     def simulator_exception(self,e_type, e_value, e_traceback):
-        QtGui.QMessageBox.critical(self,"{}: {}".format(e_type.__name__,e_value),"\n".join(format_exception(e_type,e_value,e_traceback)))
+        Widgets.QMessageBox.critical(self,"{}: {}".format(e_type.__name__,e_value),"\n".join(format_exception(e_type,e_value,e_traceback)))
         self.run_action.setEnabled(False)
         
     def simulator_log(self, message, objclass, objcolor):
@@ -493,14 +492,14 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
             
 #end QtSimiamFrame class
 
-class SimulatorViewer(QtGui.QFrame):
+class SimulatorViewer(Widgets.QFrame):
     
     resized = QtCore.Signal()
     
     def __init__(self, parent = None):
         super(SimulatorViewer, self).__init__(parent)
         self.bitmap = QtGui.QPixmap()
-        self.blt_bitmap = QtGui.QImage(self.size(), QtGui.QImage.Format_ARGB32)
+        self.blt_bitmap = QtGui.QImage(self.size(), QtGui.QImage.Format.Format_ARGB32)
         self.renderer = QtRenderer(self.blt_bitmap)
         self.resize_on_paint = False
         # code for async calling of update
@@ -509,9 +508,9 @@ class SimulatorViewer(QtGui.QFrame):
     def paintEvent(self, event):
         super(SimulatorViewer, self).paintEvent(event)
         painter = QtGui.QPainter(self)
-        painter.fillRect(self.rect(),QtCore.Qt.white)
+        painter.fillRect(self.rect(),QtCore.Qt.GlobalColor.white)
         s = self.bitmap.rect().size()
-        s.scale(self.rect().size(),QtCore.Qt.KeepAspectRatio)
+        s.scale(self.rect().size(),QtCore.Qt.AspectRatioMode.KeepAspectRatio)
         dx = (self.width() - s.width())/2
         dy = (self.height() - s.height())/2
         painter.drawPixmap(QtCore.QRect(QtCore.QPoint(dx,dy),s),self.bitmap,self.bitmap.rect())
@@ -522,7 +521,7 @@ class SimulatorViewer(QtGui.QFrame):
         if self.resize_on_paint:
             self.blt_bitmap = QtGui.QImage(self.width(),
                                             self.height(),
-                                            QtGui.QImage.Format_ARGB32)
+                                            QtGui.QImage.Format.Format_ARGB32)
             self.renderer.set_canvas(self.blt_bitmap)          
             self.resize_on_paint = False
         self.update()

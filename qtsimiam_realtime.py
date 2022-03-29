@@ -4,11 +4,11 @@
 # Description: This is the top-level application for QtSimiam for controlling real robots.
 import sys
 
-from qui.qt.Qt import QtGui
+from gui.qt.Qt import QApplication
 from gui.qt.pcmain import SimulationWidget
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     simWidget = SimulationWidget()
     simWidget.show()
     simWidget.load_world("qb_realtime_pc.xml")
