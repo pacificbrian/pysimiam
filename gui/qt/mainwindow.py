@@ -57,7 +57,7 @@ class SimulationWidget(SimUI, Widgets.QMainWindow):
         Widgets.QMainWindow.__init__(self,parent)
         self.setWindowTitle("QtSimiam")
         self.setWindowIcon(QtGui.QIcon("./res/image/appicon.png"))
-        self.resize(700,700)
+        self.resize(1250,1000)
         
         self.create_actions()
         self.create_toolbars()
@@ -282,9 +282,9 @@ class SimulationWidget(SimUI, Widgets.QMainWindow):
         self.zoom_slider.setTickPosition(Widgets.QSlider.TickPosition.NoTicks)
         self.zoom_slider.setToolTip("Adjust zoom")
         self.zoom_slider.setStatusTip("Zoom in/out on robot")
-        self.zoom_slider.setMaximumWidth(300)
-        self.zoom_slider.setRange(-100,100)
-        self.zoom_slider.setValue(0)
+        self.zoom_slider.setMaximumWidth(180)
+        self.zoom_slider.setRange(-140,80)
+        self.zoom_slider.setValue(-40)
         self.zoom_slider.setEnabled(False)
         self.zoom_slider.valueChanged[int].connect(self.scale_zoom)
         self.view_toolbar.addWidget(self.zoom_slider)
@@ -371,7 +371,8 @@ class SimulationWidget(SimUI, Widgets.QMainWindow):
         self.coursera_action.triggered.connect(self.create_coursera_widget)
 
         self.tester = TestClass(self)
-        self.create_coursera_widget()
+        # Don't auto show coursera login (use above button)
+        #self.create_coursera_widget()
      
     def create_coursera_widget(self):
         self.coursera_action.setEnabled(False)
