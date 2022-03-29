@@ -68,8 +68,11 @@ class CourseraDock(Widgets.QDockWidget):
         vl2 = Widgets.QVBoxLayout(panel)
         
         signalmapper = QtCore.QSignalMapper(self)
-        signalmapper.mapped[int].connect(self.test)
-        
+        try:
+            signalmapper.mapped[int].connect(self.test)
+        except:
+            pass
+
         for i,test in enumerate(self.tester.tests):
             btn = Widgets.QPushButton("Test {}: {}".format(i+1,test.name),panel)
             btn.setStyleSheet(self.btn_default_stylesheet)

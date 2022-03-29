@@ -507,7 +507,7 @@ class DockManager(QtCore.QObject):
                 self.active_right.expand(False)
             self.active_right = dock
         else:
-            raise ValueError("Undefined dock location")
+            return dock
     
     @QtCore.Slot()
     def dock_user_expanded(self):
