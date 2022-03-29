@@ -51,7 +51,7 @@ class XMLReader(XMLObject):
 
         def parse_tag(rdict, tag):
             """Fill dict with data from tag"""
-            for attr, value in tag.items():
+            for attr, value in list(tag.items()):
                 if attr != "id":
                     try:
                         rdict.append((attr,float(value)))

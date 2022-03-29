@@ -13,4 +13,4 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     simWidget = SimulationWidget()
     simWidget.show()
-    app.exec_()
+    app.exec()

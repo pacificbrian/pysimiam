@@ -52,12 +52,12 @@ class QtRenderer(Renderer):
 
     def _calculate_bounds(self):
         transform = self._painter.worldTransform().inverted()[0]
-        xs,ys = zip(
+        xs,ys = list(zip(
                     transform.map(0.0,0.0),
                     transform.map(0.0,float(self.size[1])),
                     transform.map(float(self.size[0]),float(self.size[1])),
                     transform.map(float(self.size[0]),0.0)
-                    )
+                    ))
 
         self._bounds = (min(xs), min(ys), max(xs), max(ys))
 

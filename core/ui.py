@@ -259,7 +259,7 @@ class SimUI:
         
         ## 1) Stop simulator
         #self.run_simulator_command('stop')
-        #while self.simulator_thread.isAlive():
+        #while self.simulator_thread.is_alive():
             #self.process_events(True)
             #self.simulator_thread.join(0.1)
                 

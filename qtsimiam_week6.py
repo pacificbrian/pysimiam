@@ -16,4 +16,4 @@ if __name__ == "__main__":
     simWidget.show()
     simWidget.load_world("week6.xml")
     simWidget.step_action.trigger()
-    app.exec_()
+    app.exec()

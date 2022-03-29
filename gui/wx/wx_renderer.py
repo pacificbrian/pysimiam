@@ -59,12 +59,12 @@ class wxGCRenderer(Renderer):
         #transform = self._gc.CreateMatrix(*self._gc.GetTransform().Get())
         transform = self._gc.GetTransform()
         transform.Invert()
-        xs,ys = zip(
+        xs,ys = list(zip(
                     transform.TransformPoint(0.0,0.0),
                     transform.TransformPoint(0.0,float(self.size[1])),
                     transform.TransformPoint(float(self.size[0]),float(self.size[1])),
                     transform.TransformPoint(float(self.size[0]),0.0)
-                    )
+                    ))
 
         self.__bounds = (min(xs), min(ys), max(xs), max(ys))
         self.__calculate_grid()

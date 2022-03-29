@@ -41,7 +41,7 @@ class FollowWall(PIDController):
         
         # Calculate vectors for the sensors
         if state.direction == 'left': # 0-2
-            d, i = min( zip(state.sensor_distances[:3],[0,1,2]) )
+            d, i = min( list(zip(state.sensor_distances[:3],[0,1,2])) )
             if i == 0 or (i == 1 and state.sensor_distances[0] <= state.sensor_distances[2]):
                 i, j, k = 1, 0, 2
                 
@@ -49,7 +49,7 @@ class FollowWall(PIDController):
                 i, j, k = 2, 1, 0
             
         else : # 2-4
-            d, i = min( zip(state.sensor_distances[2:],[2,3,4]) )
+            d, i = min( list(zip(state.sensor_distances[2:],[2,3,4])) )
             if i == 4 or (i == 3 and state.sensor_distances[4] <= state.sensor_distances[2]):
                 i, j, k = 3, 4, 2
             else:

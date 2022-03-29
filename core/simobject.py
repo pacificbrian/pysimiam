@@ -101,7 +101,7 @@ class SimObject:
     def get_bounds(self):
         """Get the smallest rectangle that contains the object
            as a tuple (xmin, ymin, xmax, ymax)"""
-        xs, ys = zip(*self.get_world_envelope())
+        xs, ys = list(zip(*self.get_world_envelope()))
         return (min(xs), min(ys), max(xs), max(ys))
             
 

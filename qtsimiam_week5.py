@@ -18,4 +18,4 @@ if __name__ == "__main__":
         simWidget.load_world("week5_{}.xml".format(sys.argv[1]))
     else:
         simWidget.load_world("week5_blending.xml")
-    app.exec_()
+    app.exec()

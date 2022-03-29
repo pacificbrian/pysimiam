@@ -304,7 +304,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
     def closeEvent(self,event):
         self.sim_timer.stop()
         self.run_simulator_command('stop')
-        while self.simulator_thread.isAlive():
+        while self.simulator_thread.is_alive():
             self.process_events(True)
             self.simulator_thread.join(0.1)
         while self.plots:
@@ -377,7 +377,7 @@ class SimulationWidget(SimUI, QtGui.QMainWindow):
     @QtCore.Slot()
     def on_open_world(self):
         self.on_pause()
-        if self.world_dialog.exec_():
+        if self.world_dialog.exec():
             self.load_world(self.world_dialog.selectedFiles()[0])
 
     @QtCore.Slot()

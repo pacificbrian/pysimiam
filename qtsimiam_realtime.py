@@ -12,5 +12,5 @@ if __name__ == "__main__":
     simWidget = SimulationWidget()
     simWidget.show()
     simWidget.load_world("qb_realtime_pc.xml")
-    app.exec_()
+    app.exec()
 

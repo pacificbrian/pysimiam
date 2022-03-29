@@ -6,7 +6,7 @@ polygon object
 """
 
 
-from __future__ import division
+
 from operator import mul
 try:
     from functools import reduce
@@ -55,7 +55,7 @@ def convexhull(_P):
     I = lexsort((_P[:,1],_P[:,0]))
     l = reduce(_keep_left, I, [])
     u = reduce(_keep_left, reversed(I), [])
-    l.extend(u[i] for i in xrange(1, len(u) - 1))
+    l.extend(u[i] for i in range(1, len(u) - 1))
     return array(l)
 
 
@@ -70,7 +70,7 @@ _prod = lambda X: reduce(mul, X)                        # product
 _mag = lambda x_y: sqrt(x_y[0] * x_y[0] + x_y[1] * x_y[1])               # magnitude, or length
 _normalize = lambda V: array([i / _mag(V) for i in V])  # normalize a vector
 _intersect = lambda A, B: (A[1] > B[0] and B[1] > A[0]) # intersection test
-_unzip = lambda zipped: zip(*zipped)                    # unzip a list of tuples
+_unzip = lambda zipped: list(zip(*zipped))                    # unzip a list of tuples
 
 def _isbetween(o, p, q):
     # returns true if point p between points o and q
@@ -493,7 +493,7 @@ class Polygon(object):
         P = self.P
         X, Y = P[:, 0], P[:, 1]
         return 0.5 * sum(X[i] * Y[(i + 1) % n] - X[(i + 1) % n] * Y[i]
-                         for i in xrange(n))
+                         for i in range(n))
 
 
     @property
@@ -507,7 +507,7 @@ class Polygon(object):
         if n == 2: return array([X[0] + X[1] / 2, Y[0] + Y[1] / 2])
 
         c_x, c_y = 0, 0
-        for i in xrange(n):
+        for i in range(n):
             a_i = X[i] * Y[(i + 1) % n] - X[(i + 1) % n] * Y[i]
             c_x += (X[i] + X[(i + 1) % n]) * a_i
             c_y += (Y[i] + Y[(i + 1) % n]) * a_i

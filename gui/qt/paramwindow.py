@@ -181,7 +181,7 @@ class Group():
         self.box = QtGui.QGroupBox(self.label,parent)
         form_layout = QtGui.QFormLayout(self.box)
         form_layout.setFieldGrowthPolicy(QtGui.QFormLayout.AllNonFixedFieldsGrow)
-        for leaf in self.leafs.values():
+        for leaf in list(self.leafs.values()):
             leaf.create_widgets(self.box, form_layout)
         layout.addRow(self.box)
 
@@ -197,7 +197,7 @@ class Group():
 
     def get_struct(self):
         p = Struct()
-        for key, leaf in self.leafs.items():
+        for key, leaf in list(self.leafs.items()):
             if isinstance(key, tuple):
                 if key[0] not in p.__dict__:
                     p.__dict__[key[0]] = {}
@@ -212,7 +212,7 @@ class Contents(Group):
     
     def create_widgets(self, parent, layout):
         form_layout = QtGui.QFormLayout()
-        for leaf in self.leafs.values():
+        for leaf in list(self.leafs.values()):
             leaf.create_widgets(parent,form_layout)
         layout.addLayout(form_layout)
     
@@ -266,7 +266,7 @@ class ParamWidget(QtGui.QWidget):
         try:
             self.contents.set_parameters(parameters)
         except ValueError as e:
-            print("Invalid parameters: {}".format(e))
+            print(("Invalid parameters: {}".format(e)))
     
     @QtCore.Slot()
     def apply_click(self):
@@ -383,7 +383,7 @@ class DockManager(QtCore.QObject):
         self.clear()
 
     def dock_to_name(self,dock):
-        for k, vdock in self.docks.items():
+        for k, vdock in list(self.docks.items()):
             if vdock == dock:
                 return k
         return "Unknown dock"
@@ -411,7 +411,7 @@ class DockManager(QtCore.QObject):
         dock.deleteLater()
     
     def clear(self):
-        for k, dock in self.docks.items():
+        for k, dock in list(self.docks.items()):
             dock.deleteLater()
         self.docks_left = []
         self.active_left = None
@@ -461,7 +461,7 @@ class DockManager(QtCore.QObject):
             self.docks_left.remove(old_dock)
         elif dock in self.docks_right:
             self.docks_right.remove(old_dock)
-        for k,v in self.docks.items():
+        for k,v in list(self.docks.items()):
             if v == dock:
                 del self.docks[k]
                 break

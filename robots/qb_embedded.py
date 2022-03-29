@@ -276,7 +276,7 @@ class QBEmbedded():
         self.info.wheels.right_ticks = self.encPos[RIGHT]
 
     def cleanup(self):
-        print "Clean up"
+        print("Clean up")
         self.setPWM([0, 0])
         self.robotSocket.close()
         GPIO.cleanup()
@@ -415,8 +415,8 @@ class QBEmbedded():
 
 
     def writeBufferToFile(self):
-        matrix = map(list, zip(*[self.encTimeRec[LEFT], self.encValRec[LEFT], self.encPWMRec[LEFT], self.encNNewRec[LEFT], \
-                                 self.encTimeRec[RIGHT], self.encValRec[RIGHT], self.encPWMRec[RIGHT], self.encNNewRec[RIGHT]]))
+        matrix = list(map(list, list(zip(*[self.encTimeRec[LEFT], self.encValRec[LEFT], self.encPWMRec[LEFT], self.encNNewRec[LEFT], \
+                                 self.encTimeRec[RIGHT], self.encValRec[RIGHT], self.encPWMRec[RIGHT], self.encNNewRec[RIGHT]]))))
         s = [[str(e) for e in row] for row in matrix]
         lens = [len(max(col, key=len)) for col in zip(*s)]
         fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
@@ -424,7 +424,7 @@ class QBEmbedded():
         f = open('output.txt','w')
         f.write('\n'.join(table))
         f.close()
-        print "Wrote buffer to output.txt"
+        print("Wrote buffer to output.txt")
 
 
 class encoderRead(threading.Thread):
@@ -545,7 +545,7 @@ def toc(tictocName='toc', printFlag=True):
     TICTOC_MIN = min(TICTOC_MIN,tictocTime)
 
     if printFlag:
-        print tictocName + " time: " + str(tictocTime)
+        print(tictocName + " time: " + str(tictocTime))
 
 def tictocPrint():
     global TICTOC_COUNT
@@ -553,10 +553,10 @@ def tictocPrint():
     global TICTOC_MAX
     global TICTOC_MIN
 
-    print "Tic Toc Stats:"
-    print "Count = " + str(TICTOC_COUNT)
-    print "Mean = " + str(TICTOC_MEAN)
-    print "Max = " + str(TICTOC_MAX)
-    print "Min = " + str(TICTOC_MIN)
+    print("Tic Toc Stats:")
+    print("Count = " + str(TICTOC_COUNT))
+    print("Mean = " + str(TICTOC_MEAN))
+    print("Max = " + str(TICTOC_MAX))
+    print("Min = " + str(TICTOC_MIN))
 
 

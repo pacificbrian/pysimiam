@@ -40,8 +40,8 @@ source_suffix = '.rst'
 #master_doc = 'index'
 
 # General information about the project.
-project = u'PySimiam'
-copyright = u'2013, Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten'
+project = 'PySimiam'
+copyright = '2013, Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -188,8 +188,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PySimiam.tex', u'PySimiam Documentation',
-   u'Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten', 'manual'),
+  ('index', 'PySimiam.tex', 'PySimiam Documentation',
+   'Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -218,8 +218,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pysimiam', u'PySimiam Documentation',
-     [u'Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten'], 1)
+    ('index', 'pysimiam', 'PySimiam Documentation',
+     ['Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -232,8 +232,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'PySimiam', u'PySimiam Documentation',
-   u'Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten', 'PySimiam', 'One line description of project.',
+  ('index', 'PySimiam', 'PySimiam Documentation',
+   'Timofey Fuchs, Shaun Lippy, John Alexander, Vidam Govorovski, Jonathan Whitten', 'PySimiam', 'One line description of project.',
    'Miscellaneous'),
 ]
 

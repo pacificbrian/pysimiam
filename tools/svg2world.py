@@ -51,7 +51,7 @@ class TreeBuilder_NS(ET.TreeBuilder):
             tag = m.group(2)
             
         attrib = {}
-        for key, value in attrs.items():
+        for key, value in list(attrs.items()):
             m = ns_re.match(key)
             if m is not None and m.group(1):
                 attrib[m.group(2)] = value

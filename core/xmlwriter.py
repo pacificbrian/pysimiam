@@ -47,7 +47,7 @@ class XMLWriter(XMLObject):
                 # Parameter key must be either a string or a tuple                
                 # Parameter value is either a list or a number/string:
                 if isinstance(value, list):
-                    if isinstance(key, basestring):
+                    if isinstance(key, str):
                         tag = ET.SubElement(root, key)
                     elif isinstance(key, tuple):
                         tag = ET.SubElement(root, str(key[0]))
@@ -56,7 +56,7 @@ class XMLWriter(XMLObject):
                         raise Exception('[XMLWriter._write_parameters] Invalid key: {}'.format(key))
                     write_subtree(tag, value)
                 else:
-                    if isinstance(key, basestring):
+                    if isinstance(key, str):
                         root.set(key, str(value))
                     else:
                         raise Exception('[XMLWriter._write_parameters] Invalid key: {}'.format(key))

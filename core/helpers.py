@@ -37,7 +37,7 @@ class Struct:
                 except Exception:
                     raise ValueError("Invalid Struct description {}".format(repr(desc)))
             
-            for k,v in dct.items():
+            for k,v in list(dct.items()):
                 if isinstance(v,dict):
                     self.__dict__[k] = Struct(v)
                 else:
@@ -53,7 +53,7 @@ class Struct:
             return "{}: {}".format(key,str_value)
         
         
-        return "Struct\n {}".format("\n ".join((str_field(k,v) for k,v in self.__dict__.items())))
+        return "Struct\n {}".format("\n ".join((str_field(k,v) for k,v in list(self.__dict__.items()))))
     
     def __repr__(self):
         return json.dumps(self.__dict__, default = lambda x: x.__dict__) # This might be the same as repr(dict), but it's safer.
@@ -62,7 +62,7 @@ class Struct:
         if not isinstance(other,Struct):
             return NotImplemented
         
-        return len(self.__dict__) == len(other.__dict__) and all(k in other.__dict__ and other.__dict__[k] == v  for k,v in self.__dict__.items() )  
+        return len(self.__dict__) == len(other.__dict__) and all(k in other.__dict__ and other.__dict__[k] == v  for k,v in list(self.__dict__.items()) )
 
 __loaded_modules = set()
 

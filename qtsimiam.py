@@ -17,4 +17,4 @@ if __name__ == "__main__":
             simWidget.load_world(sys.argv[1])
         else:
             print("Too many command-line options")
-    app.exec_()
+    app.exec()

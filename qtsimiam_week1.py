@@ -14,4 +14,4 @@ if __name__ == "__main__":
     simWidget.setTestSuite(Week1)
     simWidget.show()
     simWidget.load_world("week1.xml")
-    app.exec_()
+    app.exec()
