@@ -123,9 +123,10 @@ elif QT_LIB == PYQT6:
 
 elif QT_LIB == PYQT5:
     
-    # We're using PyQt5 which has a different structure so we're going to use a shim to
-    # recreate the Qt4 structure for Qt5
-    from PyQt5 import QtGui, QtCore, QtWidgets, Qt, uic
+    from PyQt5 import QtGui, QtCore
+    from PyQt5.QtWidgets import QApplication
+    from PyQt5 import QtWidgets as Widgets
+
     try:
         from PyQt5 import QtSvg
     except ImportError:
@@ -135,6 +136,13 @@ elif QT_LIB == PYQT5:
     except ImportError:
         pass
 
+    QtGui.QAction = Widgets.QAction
+    QtGui.QActionGroup = Widgets.QActionGroup
+
+    VERSION_INFO = 'PyQt5 ' + QtCore.PYQT_VERSION_STR + ' Qt ' + QtCore.QT_VERSION_STR
+
+# Revisit this
+if None:
     # Re-implement deprecated APIs
     def scale(self, sx, sy):
         tr = self.transform()
@@ -170,16 +178,10 @@ elif QT_LIB == PYQT5:
 
     QtGui.QApplication.setGraphicsSystem = None
     
-    # Import all QtWidgets objects into QtGui
-    for o in dir(QtWidgets):
-        if o.startswith('Q'):
-            setattr(QtGui, o, getattr(QtWidgets,o) )
-    
-    VERSION_INFO = 'PyQt5 ' + QtCore.PYQT_VERSION_STR + ' Qt ' + QtCore.QT_VERSION_STR
 
 # Common to PyQt
 if QT_LIB != PYSIDE:
-    if QT_LIB == PYQT4 or QT_LIB == PYQT5:
+    if QT_LIB == PYQT4:
         import sip
         def isQObjectAlive(obj):
             return not sip.isdeleted(obj)
