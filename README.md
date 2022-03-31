@@ -1,10 +1,20 @@
-To run: 
+To install dependencies (Mac OSX using brew):
+
+> xcode-select install \
+> brew install qt6 sphinx
+
+To install dependencies (Ubuntu):
+
+> apt-get install python3-pip qtwayland5 sphinx
+
+and finally:
+
+> pip3 install numpy pyqt6 pyqt5 pyserial
+
+
+To run:
 
 > python qtsimiam.py
-
-or
-
-> ./qtsimiampy
 
 Load your own supervisors and controllers into the development folders following the supervisor and controller templates.
 

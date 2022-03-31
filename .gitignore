@@ -4,6 +4,7 @@
 *.cover
 
 # Numerous always-ignore extensions
+*.bak
 *.diff
 *.err
 *.orig
@@ -17,7 +18,7 @@
 *.pyc
  
 # OS or Editor folders
- .DS_Store
+*.DS_Store
  Thumbs.db
  .cache
  .project
