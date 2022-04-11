@@ -12,7 +12,7 @@ def use_qwt_backend():
     if qwtPlotWindow is None:
         qwtPlotWindow = __import__('plotwindow_qwt',
                                    globals(), locals(),
-                                   ['PlotWindow'], sys.version_info.major - 3).PlotWindow
+                                   ['PlotWindow'], 1).PlotWindow
     PlotWindow = qwtPlotWindow
 
 def use_qtgraph_backend():
@@ -20,7 +20,7 @@ def use_qtgraph_backend():
     if pqgPlotWindow is None:
         pqgPlotWindow = __import__('plotwindow_qtgraph',
                                    globals(), locals(),
-                                   ['PlotWindow'], sys.version_info.major - 3).PlotWindow
+                                   ['PlotWindow'], 1).PlotWindow
     PlotWindow = pqgPlotWindow
 
 def use_matplotlib_backend():
@@ -28,7 +28,7 @@ def use_matplotlib_backend():
     if mplPlotWindow is None:
         mplPlotWindow = __import__('plotwindow_mpl',
                                    globals(), locals(),
-                                   ['PlotWindow'], sys.version_info.major - 3).PlotWindow
+                                   ['PlotWindow'], 1).PlotWindow
     PlotWindow = mplPlotWindow    
 
 def use_some_backend():

@@ -1,13 +1,13 @@
-from .Qt import QtGui, VERSION_INFO
+from .Qt import Widgets, VERSION_INFO
 
 from matplotlib.lines import Line2D
 
-if VERSION_INFO.startswith('PyQt5'):
-    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-    from matplotlib.backends.backend_qt5agg import NavigationToolbar2QTAgg as NavToolbar
-else:
+if VERSION_INFO.startswith('PyQt4'):
     from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
     from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavToolbar
+else:
+    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+    from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavToolbar
     
 from matplotlib.figure import Figure
 import numpy
@@ -80,7 +80,7 @@ class Plot:
     
     def add_curve(self,label,expression,color=None):
         self.variables.append(PlotVariable(label,expression,self.axes,color))
-        self.axes.legend().draggable()
+        self.axes.legend()#.draggable()
         
     def add_data(self,data):
         
@@ -99,26 +99,29 @@ class Plot:
             ymin -= 0.05*drange
             ymax += 0.05*drange
         
+        if ymin >= float("inf"):
+            print([ymin,ymax])
+            ymin = 0
         self.axes.set_ylim(ymin,ymax)
                 
     def clear_data(self):
         for v in self.variables:
             v.clear_data()
 
-class PlotWindow(QtGui.QWidget):
+class PlotWindow(Widgets.QWidget):
     """
     The window consists of a figure with a nav toolbar and subplots.
     It keeps track of all subplots
     """
     
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        Widgets.QWidget.__init__(self)
 
         self.plots = []
 
         self.figure = Figure()
         
-        vlayout = QtGui.QVBoxLayout(self)
+        vlayout = Widgets.QVBoxLayout(self)
 
         canvas = FigureCanvas(self.figure)
         canvas.setParent(self)

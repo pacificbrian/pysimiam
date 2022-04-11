@@ -1,4 +1,4 @@
-from .Qt import QtGui, QtCore,
+from .Qt import QtGui, QtCore
 
 
 from .Qt.QtCore import Slot, Signal, Qt, QObject, QEvent
