@@ -26,8 +26,8 @@ class QBAvoidSupervisor(QuickBotSupervisor):
         self.parameters.sensor_poses = robot_info.ir_sensors.poses[:]
 
         # Create the controller
-        #self.avoidobstacles = self.create_controller('week4.AvoidObstacles', self.parameters)
-        self.avoidobstacles = self.create_controller('week4_solved.AvoidObstacles', self.parameters)
+        self.avoidobstacles = self.create_controller('week4.AvoidObstacles', self.parameters)
+        #self.avoidobstacles = self.create_controller('week4_solved.AvoidObstacles', self.parameters)
 
         # Set the controller
         self.current = self.avoidobstacles
@@ -42,6 +42,7 @@ class QBAvoidSupervisor(QuickBotSupervisor):
         """Sets the default PID parameters, goal, and velocity"""
         self.parameters = Struct({"velocity":{"v":0.2}, \
                                   "gains":{"kp":4.0, "ki": 0.1, "kd": 0.0}})
+        self.parameters.log = self.log
 
     def get_ui_description(self,p = None):
         """Returns the UI description for the docker"""

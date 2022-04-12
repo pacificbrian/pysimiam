@@ -1,5 +1,4 @@
 from supervisors.week5_switching import QBSwitchingSupervisor as QBSwitchingSupervisorBase
-from supervisor import Supervisor
 from math import sqrt, sin, cos, atan2
 
 class QBSwitchingSupervisor(QBSwitchingSupervisorBase):
@@ -60,4 +59,4 @@ class QBSwitchingSupervisor(QBSwitchingSupervisorBase):
         QBSwitchingSupervisorBase.process_state_info(self,state)
 
         self.distance_from_goal = sqrt((self.pose_est.x - self.parameters.goal.x)**2 + (self.pose_est.y - self.parameters.goal.y)**2)
-        self.distmin = min(self.parameters.sensor_distances)        
+        self.distmin = min(self.parameters.sensor_distances)
