@@ -34,6 +34,7 @@ class JoystickController(Controller):
         self.i_y = 1
         self.inv_x = True
         self.inv_y = True
+        self.drift_correction = 0.15
 
         self.v_max = params[1]
         self.w_max = params[2]
@@ -102,5 +103,9 @@ class JoystickController(Controller):
         y = self.joystick.get_axis(self.i_y)
         if self.inv_y:
             y *= -1
+        if abs(x) < self.drift_correction:
+            x = 0
+        if abs(y) < self.drift_correction:
+            y = 0
 
         return y*self.v_max, x*self.w_max
