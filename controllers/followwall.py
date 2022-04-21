@@ -64,6 +64,11 @@ class FollowWall(PIDController):
         ds = ((p_front.x-p_back.x)**2 + (p_front.y-p_back.y)**2)
         ms = (p_front.x*p_back.y - p_front.y*p_back.x)
         self.to_wall_vector = numpy.array([(p_back.y-p_front.y)*ms/ds,(p_front.x-p_back.x)*ms/ds,1])
+        # TODO - this simpler technique seems to have same result
+        #p2 = self.vectors[0]
+        #p1 = self.vectors[1]
+        #self.to_wall_vector = ((numpy.array(p2) + numpy.array(p1)) / 3)
+
         self.along_wall_vector = numpy.array([p_front.x-p_back.x, p_front.y-p_back.y, 1])
 
         # Calculate and return the heading vector:
