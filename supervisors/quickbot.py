@@ -7,6 +7,7 @@
 # of the 'Control of Mobile Robots' course by Magnus Egerstedt.
 #
 import numpy
+from scipy import interpolate
 from math import pi, sin, cos, log1p, copysign
 
 from core.supervisor import Supervisor
@@ -33,6 +34,7 @@ class QuickBotSupervisor(Supervisor):
                           4.43025017e-11,  -3.49052288e-08,
                           1.61452174e-05,  -4.44025236e-03,
                           6.74137385e-1])
+    ir_interp = None
 
     def __init__(self, robot_pose, robot_info, options = None):
         """Initialize internal variables"""
@@ -44,6 +46,17 @@ class QuickBotSupervisor(Supervisor):
 
         # Let's say the robot is that big:
         self.robot_size = robot_info.wheels.base_length
+
+        # for ir readings conversion
+        dis_m = [0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.25, 0.30]
+        dis_adc = [917, 783, 683, 583, 517, 467, 425, 358, 308, 268, 242, 217, 167, 133]
+        dis_adc_new = self.ir_readings_transform(dis_adc)
+        ir_interp = interpolate.interp1d(numpy.array(dis_adc_new), numpy.array(dis_m), kind='linear', bounds_error=False, fill_value='extrapolate', assume_sorted=True)
+        self.ir_interp = ir_interp
+
+    def ir_readings_transform(self, readings):
+        adjusted = numpy.negative(readings)
+        return adjusted.tolist()
 
     def init_default_parameters(self):
         """Sets the default PID parameters, goal, and velocity"""
@@ -83,17 +96,21 @@ class QuickBotSupervisor(Supervisor):
         """Convert between unicycle model to differential model"""
         (v,w) = uni
 
-        summ = 2*v/self.robot.wheels.radius
-        diff = self.robot.wheels.base_length*w/self.robot.wheels.radius
+        L = self.robot.wheels.base_length
+        R = self.robot.wheels.radius
+        summ = 2*v
+        diff = w*L
 
-        vl = (summ-diff)/2
-        vr = (summ+diff)/2
+        vl = (summ-diff)/(R*2)
+        vr = (summ+diff)/(R*2)
 
         return (vl,vr)
 
     def get_ir_distances(self):
         """Converts the IR distance readings into a distance in meters"""
-        return numpy.polyval(self.ir_coeff, self.robot.ir_sensors.readings)
+        #return numpy.polyval(self.ir_coeff, self.robot.ir_sensors.readings)
+        readings = self.ir_readings_transform(self.robot.ir_sensors.readings)
+        return self.ir_interp(readings)
 
     def estimate_pose(self):
         """Update self.pose_est using odometry"""
@@ -204,5 +221,4 @@ class QuickBotSupervisor(Supervisor):
         renderer.set_brush(self.robot_color)
         for r in numpy.arange(self.robot_size/2,0,-0.01):
             renderer.draw_ellipse(0,0,r,r)
-
 
