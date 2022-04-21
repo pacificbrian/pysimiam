@@ -216,6 +216,8 @@ class Simulator(threading.Thread):
         if self.__world is None:
             return
         self.__supervisor_param_cache = [sv.get_parameters() for sv in self.__supervisors ]
+        for sv in self.__supervisors:
+            sv.stop()
         self.__construct_world()
 
     def run(self):
@@ -468,6 +470,8 @@ class Simulator(threading.Thread):
     def stop(self):
         """Stop the simulator thread when the entire program is closed"""
         self.log('stopping simulator thread')
+        for sv in self.__supervisors:
+            sv.stop()
         self.__stop = True
         self._out_queue.put(('stopped',()))
 

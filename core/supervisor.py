@@ -217,6 +217,9 @@ class Supervisor:
         #execute the current controller
         return self.current.execute(self.get_controller_state(),dt)
 
+    def stop(self):
+        pass
+
     def draw_background(self, renderer):
         """Draw anything in the view before anything else is drawn (except the grid)
         
