@@ -30,9 +30,10 @@ class QBWallSupervisor(QuickBotSupervisor):
 
         # Fill in poses for the controller
         self.parameters.sensor_poses = robot_info.ir_sensors.poses[:]
+        self.parameters.sensor_rmax = robot_info.ir_sensors.rmax
         
         # Create and set the controller
-        self.current = self.create_controller('week6_solved.FollowWall', self.parameters)
+        self.current = self.create_controller('week6.FollowWall', self.parameters)
 
     def set_parameters(self,params):
         """Set parameters for itself and the controllers"""
@@ -73,6 +74,7 @@ class QBWallSupervisor(QuickBotSupervisor):
                                   "distance":0.2, \
                                   "velocity":{"v":0.2}, \
                                   "gains":{"kp":3.0, "ki": 0.1, "kd": 0.0}})
+        self.parameters.log = self.log
 
     def process_state_info(self,state):
         """Update state parameters for the controllers and self"""
@@ -128,4 +130,4 @@ class QBWallSupervisor(QuickBotSupervisor):
             renderer.draw_line(0.01,-0.01,-0.01,0.01)
             
             renderer.pop_state()                           
-        
+
