@@ -34,14 +34,20 @@ class AvoidObstacles(PIDController):
         # Now we know the poses, it makes sense to also
         # calculate the weights
         #self.weights = [(math.cos(p.theta)+1.5) for p in self.sensor_poses]
-        self.weights = [1.0, 1.0, 0.5, 1.0, 1.0]
+        #self.weights = [1.0, 1.0, 0.5, 1.0, 1.0]
+        self.weights = [0.185, 0.20, 0.23, 0.20, 0.185]
 
         # Normalizing weights
         ws = sum(self.weights)
         self.weights = [w/ws for w in self.weights]
+        self.log("{} sensors with weights {} {}".format(
+                 len(self.weights), self.weights, round(sum(self.weights),2)))
 
     def get_heading(self, state):
-        """Get the direction away from the obstacles as a vector."""
+        """Get the direction away from the obstacles as a vector.
+
+        :return: a numpy array [x, y, z] with z = 1.
+        """
 
         # Calculate heading:
         x, y = 0, 0
@@ -50,20 +56,24 @@ class AvoidObstacles(PIDController):
             x += pose.x*w
             y += pose.y*w
 
-        # End Week 4 Assignment
+        # TODO above is good but best is to consider current direction of
+        # robot, having dynamic weight adjustment (ignore some sensors)
 
         return numpy.array([x, y, 1])
 
-    def execute(self, state, dt):
+    def get_gain(self, state, error, e):
+        # error here is distance to obstacle
+        # work in progress
+        error = 0
+        error = abs(error)
+        gain = (1/error) * (1 / (error * error + e))
+        #self.log("ao get_gain {} err {} e {}".format(gain, error, e))
+        return gain
 
+    def execute(self, state, dt):
         v, w = PIDController.execute(self, state, dt)
 
-        # Week 5 code
-        #
-
-        dmin = min(state.sensor_distances)
-        v *= ((dmin - 0.04)/0.26)**2
-
-        #
+        #dmin = min(state.sensor_distances)
+        #v *= ((dmin - 0.04)/0.26)**2
 
         return v, w
