@@ -9,8 +9,13 @@ To install dependencies (Ubuntu):
 
 and finally:
 
-> pip3 install numpy pyqt6 pyqt5 pyserial
+> pip3 install numpy pyqt6 pyqt5
 
+optional:
+
+> pip3 install pygame pyserial
+> pip3 install hasspy-hermes-app pyserial
+> pip3 install --force dataclasses-json==0.4.5
 
 To run:
 
