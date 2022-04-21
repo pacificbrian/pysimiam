@@ -45,3 +45,9 @@ class Controller():
     def restart(self):
         """Reset the controller to the initial state."""
         pass
+
+    def log(self, message):
+        """Simple print wrapper, controller can override to use the
+        supervisor's log function.
+        """
+        print("{}: {}".format(self.__class__.__name__,message))

@@ -57,6 +57,7 @@ class QuickBotSupervisor(Supervisor):
         p.gains.kp = 4.0
         p.gains.ki = 0.1
         p.gains.kd = 0.0
+        p.log = self.log
 
         self.parameters = p
 

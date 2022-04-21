@@ -43,6 +43,8 @@ class PIDController(Controller):
         self.kp = params.gains.kp
         self.ki = params.gains.ki
         self.kd = params.gains.kd
+        if params.log:
+            self.log = params.log
 
     def get_heading(self, state):
         """Get the direction in which the controller wants to move the robot
