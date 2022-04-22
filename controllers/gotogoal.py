@@ -20,10 +20,10 @@ class GoToGoal(PIDController):
     # Let's overwrite this way:
     def get_heading_angle(self, state):
         """Get the direction from the robot to the goal as a vector."""
-        
+
         # The goal:
         x_g, y_g = state.goal.x, state.goal.y
-        
+
         # The robot:
         x_r, y_r, theta = state.pose
 
@@ -34,13 +34,13 @@ class GoToGoal(PIDController):
 
         goal_angle = self.get_heading_angle(state)
         return numpy.array([math.cos(goal_angle),math.sin(goal_angle),1])
-    
+
     def execute(self, state, dt):
-        
+
         v, w = PIDController.execute(self, state, dt)
-        
+
         # Week 5 code
         #
-        # 
-        
+        #
+
         return v, w

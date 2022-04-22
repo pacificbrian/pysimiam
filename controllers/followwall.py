@@ -1,6 +1,6 @@
 #
 # (c) PySimiam Team 2013
-# 
+#
 # Contact person: Tim Fuchs <typograph@elec.ru>
 #
 # This class was implemented for the weekly programming excercises
@@ -23,11 +23,11 @@ class FollowWall(PIDController):
 
     def set_parameters(self, params):
         """Set PID values, sensor poses, direction and distance.
-        
+
         The params structure is expected to have sensor poses in the robot's
         reference frame as ``params.sensor_poses``, the direction of wall
         following (either 'right' for clockwise or 'left' for anticlockwise)
-        as ``params.direction`` and the desired distance to the wall 
+        as ``params.direction`` and the desired distance to the wall
         to maintain as ``params.distance``.
         """
         PIDController.set_parameters(self,params)
@@ -35,26 +35,26 @@ class FollowWall(PIDController):
         self.sensor_poses = params.sensor_poses
         self.direction = params.direction
         self.distance = params.distance
-        
+
     def get_heading(self, state):
         """Get the direction along the wall as a vector."""
-        
+
         # Calculate vectors for the sensors
         if state.direction == 'left': # 0-2
             d, i = min( list(zip(state.sensor_distances[:3],[0,1,2])) )
             if i == 0 or (i == 1 and state.sensor_distances[0] <= state.sensor_distances[2]):
                 i, j, k = 1, 0, 2
-                
+
             else:
                 i, j, k = 2, 1, 0
-            
+
         else : # 2-4
             d, i = min( list(zip(state.sensor_distances[2:],[2,3,4])) )
             if i == 4 or (i == 3 and state.sensor_distances[4] <= state.sensor_distances[2]):
                 i, j, k = 3, 4, 2
             else:
                 i, j, k = 2, 3, 4
-                
+
         p_front = Pose(state.sensor_distances[i]) >> self.sensor_poses[i]
         p_back = Pose(state.sensor_distances[j]) >> self.sensor_poses[j]
 
@@ -72,5 +72,4 @@ class FollowWall(PIDController):
             return 0.3*self.along_wall_vector + 2 * offset * self.to_wall_vector
         else:
             return 0.3*self.along_wall_vector + 3 * offset * self.to_wall_vector
-    
-               
+
