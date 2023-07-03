@@ -588,7 +588,7 @@ class SimulatorViewer(Widgets.QFrame):
         s.scale(self.rect().size(),QtCore.Qt.AspectRatioMode.KeepAspectRatio)
         dx = (self.width() - s.width())/2
         dy = (self.height() - s.height())/2
-        painter.drawPixmap(QtCore.QRect(QtCore.QPoint(dx,dy),s),self.bitmap,self.bitmap.rect())
+        painter.drawPixmap(QtCore.QRect(QtCore.QPoint(int(dx),int(dy)),s),self.bitmap,self.bitmap.rect())
 
     def export_bitmap(self,filename):
         """Saves the view into a file."""
