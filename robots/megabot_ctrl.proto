@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package megabot;
+
+message megabotCtrl {
+  string name = 1;
+  float fvalue1 = 3;
+  float fvalue2 = 4;
+  float fvalue3 = 5;
+  float ivalue1 = 6;
+  float ivalue2 = 7;
+  float ivalue3 = 8;
+}
+
+option go_package = "./control";

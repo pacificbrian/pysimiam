@@ -1,5 +1,5 @@
 <simulation>
-		<robot type="QuickBot">
+		<robot type="GoBot">
         <supervisor type="week7.QBFullSupervisor" />
         <pose x="0" y="0" theta="0" />
     </robot>
